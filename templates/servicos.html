@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços - Julio Tech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Barra de Navegação Fixa */
+        nav {
+            background-color: #007bff;
+            color: white;
+            padding: 16px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between; /* Alinha os elementos ao longo do espaço */
+            align-items: center;
+        }
+
+        /* Ícone do Menu (Botão) */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin-left: auto; /* Empurra o botão para a direita */
+        }
+
+        /* Ícone do Menu */
+        .dropdown button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 40px; /* Ajusta a posição do botão */
+        }
+
+        /* Menu Dropdown */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 47px;
+            right: 0; /* Ajuste para evitar o corte do menu */
+            background-color: white;
+            min-width: 180px; /* Ajuste a largura do menu dropdown */
+            border-radius: 5px;
+            z-index: 1000;
+            border: 1px solid #ddd;
+        }
+
+        /* Ação ao passar o mouse ou clicar */
+        .dropdown:hover .dropdown-content,
+        .dropdown:focus-within .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: #007bff;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f4f4f4;
+            color: #0056b3;
+        }
+
+        /* Estilo do Body com Padding para Ajustar a Barra de Navegação */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 80px; /* Ajuste para a altura da barra de navegação */
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: normal;
+        }
+         header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        header .logout {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background-color: #dc3545;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        header .logout:hover {
+            background-color: #b52d3a;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .servico-lista {
+            margin-top: 20px;
+        }
+
+        .servico-lista ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .servico-lista li {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .servico-info {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .servico-info h3 {
+            font-size: 18px;
+            margin: 0;
+            color: #007bff;
+        }
+
+        .servico-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .servico-info .valor {
+            font-weight: bold;
+            font-size: 20px;
+            color: #28a745;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .add-service-btn {
+            margin: 20px auto;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .add-service-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilo para a Barra Superior */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .top-bar form {
+            display: flex;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .top-bar input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .top-bar .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .top-bar .btn:hover {
+            background-color: #0056b3;
+        }
+        /* Lista de Serviços */
+        .servico-lista ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .servico-lista li {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            margin: 0 5px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .pagination .btn:hover {
+            background-color: #0056b3;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+    <!-- Barra de Navegação com o Título -->
+    <nav>
+        <div class="dropdown">
+            <button>
+                <i class="fas fa-bars"></i> <!-- Ícone de Menu -->
+            </button>
+            <div class="dropdown-content">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/clientes">Clientes</a>
+                <a href="/servicos">Serviços</a>
+                <a href="/estoque">Estoque</a>
+                <a href="/relatorios">Relatórios</a>
+                <a href="/configuracoes">Configurações</a>
+                <a href="/logout" style="color: red;">Sair</a>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        <h2 class="form-title">Serviços Realizados</h2>
+        <!-- Barra Superior -->
+        <div class="top-bar">
+            <form method="GET" action="/servicos">
+                <input type="text" name="busca" placeholder="Pesquisar serviço..." value="{{ busca }}">
+                <button type="submit" class="btn">Buscar</button>
+            </form>
+               <a href="/servicos/novo" class="btn">Novo Serviço</a>
+        </div>
+
+        <!-- Lista de Serviços -->
+        <div class="servico-lista">
+            <ul>
+                {% for servico in servicos %}
+                    <li>
+                        <div class="servico-info">
+                            <h3>{{ servico[1] }}</h3> <!-- Nome do Cliente -->
+                            <p><strong>Descrição:</strong> {{ servico[2] }}</p> <!-- Descrição do Serviço -->
+                            <p class="valor">R$ {{ servico[3] }}</p> <!-- Valor do Serviço -->
+                        </div>
+                        <div class="servico-actions">
+                            <a href="/servicos/editar/{{ servico[0] }}" class="btn"><i class="fas fa-edit"></i> Editar </a> |
+                            <a href="/servicos/excluir/{{ servico[0] }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este serviço?')"><i class="fas fa-trash"></i> Excluir </a> |
+                            <a href="/servicos/recibo/{{ servico[0] }}" class="btn btn-success">
+                                <i class="fas fa-receipt"></i> Gerar Recibo
+                            </a>
+                            
+                        </div>
+                    </li>
+                {% else %}
+                    <li>Não há serviços cadastrados.</li>
+                {% endfor %}
+            </ul>
+        </div>
+            <!-- Paginação -->
+        <div class="pagination">
+            {% if pagina > 1 %}
+                <a href="/servicos?pagina={{ pagina - 1 }}" class="btn"> <<< Página anterior </a>
+            {% endif %}
+            {% if pagina < total_paginas %}
+                <a href="/servicos?pagina={{ pagina + 1 }}" class="btn">Próxima página >>></a>
+            {% endif %}
+        </div>
+        <a href="/dashboard" class="back-link">Voltar para DashBoard</a>
+    </div>
+    
+</body>
+</html>

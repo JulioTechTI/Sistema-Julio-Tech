@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Serviços - Julio Tech</title>
+    <!-- CSS do Select2 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- JavaScript do Select2 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Barra de Navegação Fixa */
+        nav {
+            background-color: #007bff;
+            color: white;
+            padding: 16px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between; /* Alinha o título e o menu ao longo do espaço */
+            align-items: center;
+            padding-right: 0px; /* Adiciona espaçamento extra à direita para o ícone */
+        }
+
+        /* Botão do menu */
+        .dropdown button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 40px;
+            box-shadow: none;
+            padding: 0;
+
+        }
+        /* Ícone do Menu (Botão) */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin-left: auto; /* Empurra o botão para a direita */
+        }
+
+        /* Menu Dropdown */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 47px;
+            right: 0;
+            background-color: white;
+            min-width: 180px;
+            border-radius: 5px;
+            z-index: 1000;
+            border: 1px solid #ddd;
+        }
+
+        .dropdown:hover .dropdown-content,
+        .dropdown:focus-within .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: #007bff;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f4f4f4;
+            color: #0056b3;
+        }
+        
+        /* Estilo do Body com Padding para Ajustar a Barra de Navegação */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 80px; /* Ajuste para a altura da barra de navegação */
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 1px;
+            font-weight: bold;
+        }
+
+        select, input {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+
+        .estoque-section {
+            margin-top: 1px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px;  /* Adiciona espaçamento na parte inferior da seção */
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Botão de Adicionar */
+        .btn-adc {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: none;
+        }
+
+        .btn-adc {
+            background-color: #007bff;
+        }
+
+        /* Ajuste da largura do campo Select2 */
+        #itens-estoque {
+            width: 100%;  /* Define que o campo ocupe toda a largura disponível, mas vamos dar uma margem para não ficar muito grande */
+            max-width: 400px;  /* Define uma largura máxima para o campo, garantindo que ele não fique muito largo */
+            margin: 30px auto;  /* Adiciona margem para centralizar e dar um espaçamento adequado */
+            padding: 10px;  /* Ajusta o padding para tornar o campo mais confortável */
+            display: block;  /* Garante que o campo ocupe a largura total permitida */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Barra de Navegação com o Título -->
+    <nav>
+        <div class="dropdown">
+            <button>
+                <i class="fas fa-bars"></i> <!-- Ícone de Menu -->
+            </button>
+            <div class="dropdown-content">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/clientes">Clientes</a>
+                <a href="/servicos">Serviços</a>
+                <a href="/estoque">Estoque</a>
+                <a href="/relatorios">Relatórios</a>
+                <a href="/configuracoes">Configurações</a>
+                <a href="/logout" style="color: red;">Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Título Visível na Página -->
+        <h2>Adicione um Novo Serviço para o Cliente</h2>  
+
+        <form action="/servicos/novo" method="POST">
+            <!-- Seleção de Cliente -->
+            <label for="cliente_id">Cliente:</label>
+            <select id="cliente_id" name="cliente_id" required>
+                <option value="">Selecione um cliente</option>
+                {% for cliente in clientes %}
+                    <option value="{{ cliente[0] }}">{{ cliente[1] }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Descrição do Serviço -->
+            <label for="descricao">Descrição do Serviço:</label>
+            <input type="text" id="descricao" name="descricao" placeholder="Digite a descrição do serviço" required>
+
+            <!-- Valor do Serviço -->
+            <label for="valor">Valor:</label>
+            <input type="text" id="valor" name="valor" placeholder="Digite o valor do serviço" required>
+
+            <!-- Checkbox para indicar itens do estoque -->
+            <label>
+                <input type="checkbox" id="incluir_estoque" name="incluir_estoque" value="1">
+                Este serviço envolve itens do estoque?
+            </label>
+
+            <!-- Campo de Seleção de Itens do Estoque com Select2 -->
+            <div class="estoque-section" id="estoque-section" style="display: none;">
+                <h3>Itens do Estoque</h3>
+                <select id="itens-estoque" name="itens_estoque[]" multiple style="width: 100%;">
+                    {% for item in itens_estoque %}
+                        <option value="{{ item[0] }}">{{ item[1] }} (Disponível: {{ item[2] }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Botão para Salvar -->
+            <button type="submit" class="btn-adc">Salvar Serviço</button>
+        </form>
+        <a href="/servicos" class="back-link">Voltar para Lista de Serviços</a>
+    </div>
+
+    <script>
+        // Mostrar ou ocultar a seção de estoque com base na checkbox
+        const incluirEstoqueCheckbox = document.getElementById("incluir_estoque");
+        const estoqueSection = document.getElementById("estoque-section");
+
+        incluirEstoqueCheckbox.addEventListener("change", () => {
+            estoqueSection.style.display = incluirEstoqueCheckbox.checked ? "block" : "none";
+        });
+
+        // Ativar o Select2 no campo de seleção de itens do estoque
+        $(document).ready(function() {
+            $('#itens-estoque').select2({
+                placeholder: "Selecione os itens do estoque",
+                allowClear: true
+            });
+        });
+    </script>
+    
+</body>
+</html>

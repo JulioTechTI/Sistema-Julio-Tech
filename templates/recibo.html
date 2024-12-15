@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recibo do Serviço</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .recibo {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .recibo .marca-dagua {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        .recibo .marca-dagua img {
+            max-width: 300px;
+            height: auto;
+        }
+        .recibo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .recibo-header .logo img {
+            max-width: 150px;
+        }
+        .recibo-header .valor {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+            text-align: right;
+        }
+        .recibo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    }
+
+    .recibo-header .titulo-recibo {
+    text-align: center;
+    flex-grow: 1;
+    }
+
+    .recibo-header .titulo-recibo h1 {
+    font-size: 40px;
+    color: #1a1717;
+    margin: 0;
+    font-weight: bold;
+    }
+
+        .recibo-body {
+            margin-top: 20px;
+        }
+        .recibo-body .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .recibo-body .info-row .field {
+            flex: 1;
+            margin-right: 15px;
+        }
+        .recibo-body .info-row .field:last-child {
+            margin-right: 0;
+        }
+        .recibo-body .field label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+        }
+        .recibo-body .field span {
+            display: block;
+            padding: 8px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            color: #333;
+            margin-top: 5px;
+        }
+        .recibo-body .itens {
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            background: #f9f9f9;
+        }
+        .recibo-body .itens h4 {
+            margin: 0 0 10px;
+            font-size: 16px;
+            color: #555;
+        }
+        .recibo-body .itens ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .recibo-body .itens ul li {
+            margin: 5px 0;
+            color: #333;
+        }
+        .recibo-footer {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .recibo-footer .assinatura {
+            margin-top: 30px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+            font-size: 14px;
+            color: #555;
+        }
+        .buttons {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background-color: #007bff;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .buttons button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    
+    <div class="recibo">
+        <div class="marca-dagua">
+            <img src="/static/logo.png" alt="Marca d'Água">
+        </div>
+        
+        <div class="recibo-header">
+            <div class="logo">
+                <img src="/static/logo.png" alt="Julio Tech Logo">
+            </div>
+            <div class="titulo-recibo">
+                <h1>RECIBO</h1>
+            </div>
+            <div class="valor">Valor: R$ {{ servico[2] }}</div>
+        </div>
+
+        <div class="recibo-body">
+            <div class="info-row">
+                <div class="field">
+                    <label>Cliente:</label>
+                    <span>{{ servico[4] }}</span>
+                </div>
+                <div class="field">
+                    <label>Telefone:</label>
+                    <span>{{ servico[5] }}</span>
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="field">
+                    <label>Endereço:</label>
+                    <span>{{ servico[6] }}</span>
+                </div>
+                <div class="field">
+                    <label>Data:</label>
+                    <span>{{ servico[3] }}</span>
+                </div>
+            </div>
+            <div class="info-row">
+                <div class="field">
+                    <label>Descrição:</label>
+                    <span>{{ servico[1] }}</span>
+                </div>
+            </div>
+
+            {% if itens %}
+            <div class="itens-estoque">
+    <h3>Itens do Estoque Utilizados</h3>
+    <ul>
+        {% if itens %}
+            {% for item in itens %}
+                <li>{{ item[0] }} - Quantidade Usada: {{ item[1] }}</li>
+            {% endfor %}
+        {% else %}
+            <li>Nenhum item do estoque foi utilizado.</li>
+        {% endif %}
+    </ul>
+</div>
+            {% endif %}
+        </div>
+
+        <div class="recibo-footer">
+            <p class="assinatura">Assinatura do Técnico Responsável</p>
+        </div>
+
+        <div class="buttons">
+            <button onclick="window.print()">Imprimir</button>
+        </div>
+    </div>
+</body>
+</html>

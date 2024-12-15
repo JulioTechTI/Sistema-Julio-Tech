@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Clientes - Julio Tech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Barra de Navegação Fixa */
+        nav {
+            background-color: #007bff;
+            color: white;
+            padding: 16px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between; /* Alinha o título e o menu ao longo do espaço */
+            align-items: center;
+            padding-right: 0px; /* Adiciona espaçamento extra à direita para o ícone */
+        }
+
+        /* Botão do menu */
+        .dropdown button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 40px;
+            box-shadow: none;
+            padding: 0;
+
+        }
+        /* Ícone do Menu (Botão) */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            margin-left: auto; /* Empurra o botão para a direita */
+        }
+
+        /* Menu Dropdown */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 47px;
+            right: 0;
+            background-color: white;
+            min-width: 180px;
+            border-radius: 5px;
+            z-index: 1000;
+            border: 1px solid #ddd;
+        }
+
+        .dropdown:hover .dropdown-content,
+        .dropdown:focus-within .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: #007bff;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f4f4f4;
+            color: #0056b3;
+        }
+        
+        /* Estilo do Body com Padding para Ajustar a Barra de Navegação */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 80px; /* Ajuste para a altura da barra de navegação */
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: normal;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Botão de Adicionar */
+        .btn-adc {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: none;
+        }
+
+        .btn-adc {
+            background-color: #007bff;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <!-- Barra de Navegação com o Título -->
+    <nav>
+        <div class="dropdown">
+            <button>
+                <i class="fas fa-bars"></i> <!-- Ícone de Menu -->
+            </button>
+            <div class="dropdown-content">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/clientes">Clientes</a>
+                <a href="/servicos">Serviços</a>
+                <a href="/estoque">Estoque</a>
+                <a href="/relatorios">Relatórios</a>
+                <a href="/configuracoes">Configurações</a>
+                <a href="/logout" style="color: red;">Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Título Visível na Página -->
+        <h2>Preencha os dados do novo cliente</h2>  <!-- Subtítulo claro sobre o que o usuário deve fazer -->
+
+        <form action="/clientes/novo" method="POST">
+            <!-- Nome do Cliente -->
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" placeholder="Digite o nome do cliente" required>
+
+            <!-- Telefone do Cliente -->
+            <label for="telefone">Telefone:</label>
+            <input type="text" id="telefone" name="telefone" placeholder="Digite o telefone do cliente" required>
+
+            <!-- Endereço do Cliente -->
+            <label for="endereco">Endereço:</label>
+            <input type="text" id="endereco" name="endereco" placeholder="Digite o endereço do cliente" required>
+
+            <!-- Botão para Salvar -->
+            <button type="submit" class="btn-adc">Salvar Cliente</button>
+        </form>
+        <a href="/clientes" class="back-link">Voltar para Lista de Clientes</a>
+    </div>
+    
+</body>
+</html>

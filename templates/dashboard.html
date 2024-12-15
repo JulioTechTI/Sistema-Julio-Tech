@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Julio Tech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Barra de Navegação Fixa */
+        nav {
+            background-color: #007bff;
+            color: white;
+            padding: 16px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between; /* Alinha o título e o menu ao longo do espaço */
+            align-items: center;
+            padding-right: 0px; /* Adiciona espaçamento extra à direita para o ícone */
+        }
+
+        /* Título na Barra de Navegação */
+        nav h1 {
+            font-size: 18px;
+            margin: 0;
+            text-align: center; /* Centraliza o título */
+            font-weight: normal;
+            flex-grow: 0; /* Impede que o título ocupe o espaço disponível */
+        }
+
+        /* Ícone do Menu (Botão) */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            
+        }
+
+        /* Ícone do Menu */
+        .dropdown button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 40px; /* Ajusta a posição do botão */
+        }
+
+        /* Menu Dropdown */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 47px;
+            right: 0; /* Ajuste para evitar o corte do menu */
+            background-color: white;
+            min-width: 180px; /* Ajuste a largura do menu dropdown */
+            border-radius: 5px;
+            z-index: 1000;
+            border: 1px solid #ddd;
+        }
+
+        /* Ação ao passar o mouse ou clicar */
+        .dropdown:hover .dropdown-content,
+        .dropdown:focus-within .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: #007bff;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f4f4f4;
+            color: #0056b3;
+        }
+
+        /* Estilo do Body com Padding para Ajustar a Barra de Navegação */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-top: 80px; /* Ajuste para a altura da barra de navegação */
+            background-color: #f4f4f4;
+        }
+
+        /* Estatísticas */
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+        }
+
+        .stat-item h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #007bff;
+        }
+
+        .stat-item p {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0 0;
+        }
+
+        /* Cards de Ação */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .card a {
+            text-decoration: none;
+            color: white;
+            background: #007bff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .card a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilo para lista de clientes e serviços */
+        .clientes-list, .servicos-list {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .clientes-list h3, .servicos-list h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #007bff;
+        }
+
+        .clientes-list ul, .servicos-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .clientes-list li, .servicos-list li {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Barra de Navegação com o Título -->
+    <nav>
+        <h1>Bem-vindo ao Dashboard, {{ usuario }}!</h1>
+        <div class="dropdown">
+            <button>
+                <i class="fas fa-bars"></i> <!-- Ícone de Menu -->
+            </button>
+            <div class="dropdown-content">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/clientes">Clientes</a>
+                <a href="/servicos">Serviços</a>
+                <a href="/estoque">Estoque</a>
+                <a href="/relatorios">Relatórios</a>
+                <a href="/configuracoes">Configurações</a>
+                <a href="/logout" style="color: red;">Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Estatísticas -->
+    <div class="stats">
+        <div class="stat-item">
+            <h3>Total de Clientes</h3>
+            <p>{{ total_clientes }}</p>
+        </div>
+        <div class="stat-item">
+            <h3>Serviços Realizados</h3>
+            <p>{{ total_servicos }}</p>
+        </div>
+        <div class="stat-item">
+            <h3>Itens em Estoque</h3>
+            <p>{{ total_estoque }}</p>
+        </div>
+        <div class="stat-item">
+            <h3>Receita Total</h3>
+            <p>R$ {{ receita_total }}</p>
+        </div>
+    </div>
+
+    <!-- Cards de Ação -->
+    <div class="card-grid">
+        <div class="card">
+            <i class="fas fa-users"></i>
+            <h3>Gerenciar Clientes</h3>
+            <a href="/clientes">Acessar</a>
+        </div>
+        <div class="card">
+            <i class="fas fa-briefcase"></i>
+            <h3>Gerenciar Serviços</h3>
+            <a href="/servicos">Acessar</a>
+        </div>
+        <div class="card">
+            <i class="fas fa-boxes"></i>
+            <h3>Gerenciar Estoque</h3>
+            <a href="/estoque">Acessar</a>
+        </div>
+        <div class="card">
+            <i class="fas fa-chart-line"></i>
+            <h3>Gerar Relatórios</h3>
+            <a href="/relatorios">Acessar</a>
+        </div>
+    </div>
+
+    <!-- Exibir últimos 5 clientes cadastrados -->
+    <div class="clientes-list">
+        <h3>Últimos Clientes Cadastrados</h3>
+        <ul>
+            {% for cliente in clientes %}
+                <li>
+                    <span>{{ cliente[1] }} ({{ cliente[2] }})</span>
+                    <a href="/clientes/{{ cliente[0] }}" class="btn">Ver Detalhes</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Exibir últimos 5 serviços realizados -->
+    <div class="servicos-list">
+        <h3>Últimos Serviços Realizados</h3>
+        <ul>
+            {% for servico in servicos %}
+                <li>
+                    <span>{{ servico[1] }} - R$ {{ servico[3] }}</span>
+                    <a href="/servicos/{{ servico[0] }}" class="btn">Ver Detalhes</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Julio Tech</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        header .logo {
+            max-height: 100px;
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+            background-color: #f4f4f4;
+        }
+
+        .card {
+            background-color: white;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 35px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .card h3 {
+            margin-bottom: 20px;
+        }
+
+        .card input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .card button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .card button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            text-align: center;
+            padding: 0px;
+            color: black;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="/static/logo.png" alt="Julio Tech" class="logo">
+    </header>
+
+    <div class="login-container">
+        <div class="card">
+            <h3>Login</h3>
+            <form method="POST">
+                <label for="usuario">Usuário:</label><br>
+                <input type="text" id="usuario" name="usuario" required><br><br>
+                <label for="senha">Senha:</label><br>
+                <input type="password" id="senha" name="senha" required><br><br>
+                <button type="submit">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Julio Tech - Todos os direitos reservados.</p>
+    </footer>
+    
+</body>
+</html>
