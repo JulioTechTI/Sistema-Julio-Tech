@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordem de Serviço - Julio Tech</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .os-container {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .os-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .os-header img {
+            max-height: 80px;
+        }
+
+        .os-header h1 {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .os-header p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+            color: #007bff;
+        }
+
+        .section p {
+            margin: 5px 0;
+        }
+
+        .checklist-item {
+            margin-left: 20px;
+        }
+
+        .signature {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .signature div {
+            width: 45%;
+            text-align: center;
+            border-top: 1px solid #333;
+            padding-top: 5px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .buttons a {
+            padding: 10px 20px;
+            margin: 5px;
+            color: white;
+            background-color: #007bff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .buttons a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="os-container">
+        <!-- Cabeçalho -->
+        <div class="os-header">
+            <img src="/static/logo.png" alt="Julio Tech">
+            <h1>Ordem de Serviço</h1>
+            <p><strong>Número:</strong> OS-{{ servico[0] }} | <strong>Data:</strong> {{ servico[3] }}</p>
+            <p><strong>Cliente:</strong> {{ servico[4] }}</p>
+        </div>
+
+        <!-- Dados do Equipamento -->
+        <div class="section">
+            <h2>Dados do Equipamento</h2>
+            <p><strong>Tipo:</strong> {{ tipo_equipamento }}</p>
+            <p><strong>Marca:</strong> {{ marca }}</p>
+            <p><strong>Modelo:</strong> {{ modelo }}</p>
+            <p><strong>Número de Série:</strong> {{ numero_serie }}</p>
+        </div>
+
+        <!-- Diagnóstico -->
+        <div class="section">
+            <h2>Diagnóstico</h2>
+            <p>{{ diagnostico }}</p>
+        </div>
+
+        <!-- Checklist do Bem -->
+        <div class="section">
+            <h2>Checklist do Bem</h2>
+            <ul>
+                {% for item in checklist %}
+                    <li class="checklist-item">{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Serviços Realizados -->
+        <div class="section">
+            <h2>Serviços Realizados</h2>
+            <p>{{ servico[1] }}</p>
+        </div>
+
+        <!-- Itens do Estoque -->
+        {% if itens %}
+        <div class="section">
+            <h2>Itens Utilizados</h2>
+            <ul>
+                {% for item in itens %}
+                    <li>{{ item[0] }} - {{ item[1] }} unidade(s)</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- Observações -->
+        <div class="section">
+            <h2>Observações</h2>
+            <p>{{ observacoes }}</p>
+        </div>
+
+        <!-- Assinaturas -->
+        <div class="signature">
+            <div>
+                <p>Assinatura do Cliente</p>
+            </div>
+            <div>
+                <p>Assinatura do Técnico</p>
+            </div>
+        </div>
+
+        <!-- Botões -->
+        <div class="buttons">
+            <a href="#" onclick="window.print()">Imprimir OS</a>
+            <a href="/servicos">Voltar</a>
+        </div>
+    </div>
+</body>
+</html>

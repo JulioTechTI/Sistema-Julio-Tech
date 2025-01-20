@@ -249,7 +249,7 @@ def servicos():
     # Consultar os serviços com paginação
     if busca:
         cursor.execute("""
-            SELECT servicos.id, clientes.nome, servicos.descricao, servicos.valor 
+            SELECT servicos.id, clientes.nome, servicos.descricao, servicos.valor
             FROM servicos 
             JOIN clientes ON servicos.cliente_id = clientes.id 
             WHERE clientes.nome LIKE ? OR servicos.descricao LIKE ? 
@@ -277,6 +277,34 @@ def servicos():
         pagina=pagina,
         total_paginas=total_paginas
     )
+
+######### Rota para Detalhes do serviço
+@app.route("/servicos/<int:id>", methods=["GET"])
+def detalhes_servico(id):
+    if "usuario" not in session:
+        return redirect(url_for("index"))
+    
+    # Conectar ao banco de dados
+    conn = conectar_bd()
+    cursor = conn.cursor()
+
+    # Buscar informações detalhadas do serviço
+    cursor.execute("""
+        SELECT servicos.id, clientes.nome, servicos.descricao, servicos.valor
+        FROM servicos
+        JOIN clientes ON servicos.cliente_id = clientes.id 
+        WHERE servicos.id = ?
+    """, (id,))
+    servico = cursor.fetchone()
+
+    # Fechar a conexão
+    conn.close()
+
+    if servico:
+        return render_template("detalhes_servico.html", servico=servico)
+    else:
+        return "Serviço não encontrado", 404
+
 
 
 #################Rota para editar serviços
@@ -351,6 +379,54 @@ def editar_servico(servico_id):
         return redirect(url_for("servicos"))
 
     return render_template("editar_servico.html", servico=servico, itens_estoque=itens_estoque, clientes=clientes)
+
+###### Rota para Ordem de serviço OS
+@app.route("/servicos/os/<int:servico_id>", methods=["GET", "POST"])
+def ordem_servico(servico_id):
+    if "usuario" not in session:
+        return redirect(url_for("login"))
+
+    conn = conectar_bd()
+    cursor = conn.cursor()
+
+    # Buscar os dados do serviço e cliente
+    cursor.execute("""
+        SELECT s.id, s.descricao, s.valor, s.data_servico, c.nome, c.telefone, c.endereco
+        FROM servicos AS s
+        JOIN clientes AS c ON s.cliente_id = c.id
+        WHERE s.id = ?
+    """, (servico_id,))
+    servico = cursor.fetchone()
+
+    # Buscar itens do estoque relacionados ao serviço
+    cursor.execute("""
+        SELECT e.nome, se.quantidade_usada
+        FROM servicos_estoque AS se
+        JOIN estoque AS e ON se.estoque_id = e.id
+        WHERE se.servico_id = ?
+    """, (servico_id,))
+    itens = cursor.fetchall()
+
+    conn.close()
+
+    if not servico:
+        return "Serviço não encontrado.", 404
+
+    # Número da OS
+    numero_os = f"OS-{servico_id:06d}"  # Formato OS-000001, por exemplo.
+
+    return render_template("os.html", servico=servico, itens=itens, numero_os=numero_os)
+
+#########Rota para visualizar OS
+@app.route("/servicos/os/<int:servico_id>")
+def visualizar_os(servico_id):
+    # Busque os dados do serviço, cliente, itens do estoque
+    conn = conectar_bd()
+    cursor = conn.cursor()
+    # ... (dados do serviço e cliente como já fizemos)
+    return render_template("ordem_servico.html", servico=servico, itens=itens)
+
+
 
 #################Rota para excluir serviços
 @app.route("/servicos/excluir/<int:id>", methods=["GET"])
@@ -515,7 +591,7 @@ def editar_cliente(id):
     return render_template("editar_cliente.html", cliente=cliente)
 
 ################# Rota para excluir um cliente
-@app.route("/clientes/excluir/<int:id>", methods=["GET"])
+@app.route("/clientes/excluir/<int:id>", methods=["POST"])
 def excluir_cliente(id):
     if "usuario" not in session:
         return redirect(url_for("index"))
@@ -528,9 +604,6 @@ def excluir_cliente(id):
     conn.close()
 
     return redirect(url_for("clientes"))
-
-
-#from flask import Response, render_template
 
 
 ############### Rota para gerenciar estoque

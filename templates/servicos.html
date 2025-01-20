@@ -299,6 +299,38 @@
             text-decoration: underline;
         }
 
+/* Estilo para o dropdown do botão "Imprimir" */
+.print-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.print-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 126px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.print-dropdown-content a {
+    color: #007bff;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+}
+
+.print-dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Exibir o dropdown ao passar o mouse */
+.print-dropdown:hover .print-dropdown-content {
+    display: block;
+}
 
 
 
@@ -349,10 +381,17 @@
                         <div class="servico-actions">
                             <a href="/servicos/editar/{{ servico[0] }}" class="btn"><i class="fas fa-edit"></i> Editar </a> |
                             <a href="/servicos/excluir/{{ servico[0] }}" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este serviço?')"><i class="fas fa-trash"></i> Excluir </a> |
-                            <a href="/servicos/recibo/{{ servico[0] }}" class="btn btn-success">
-                                <i class="fas fa-receipt"></i> Gerar Recibo
-                            </a>
                             
+                                <!-- Botão com Dropdown para Recibo e OS -->
+                                <div class="print-dropdown">
+                                    <button class="btn btn-success">
+                                        <i class="fas fa-print"></i> Imprimir
+                                    </button>
+                                    <div class="print-dropdown-content">
+                                        <a href="/servicos/recibo/{{ servico[0] }}">Recibo</a>
+                                        <a href="/servicos/os/{{ servico[0] }}">OS</a>
+                                    </div>
+                                </div>   
                         </div>
                     </li>
                 {% else %}

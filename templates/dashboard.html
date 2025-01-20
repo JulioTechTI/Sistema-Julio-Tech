@@ -229,7 +229,7 @@
         </div>
         <div class="stat-item">
             <h3>Itens em Estoque</h3>
-            <p>{{ total_estoque }}</p>
+            <p>{{ total_estoque or 0 }}</p>
         </div>
         <div class="stat-item">
             <h3>Receita Total</h3>
@@ -267,7 +267,7 @@
         <ul>
             {% for cliente in clientes %}
                 <li>
-                    <span>{{ cliente[1] }} ({{ cliente[2] }})</span>
+                    <span>{{ cliente[1] }} _ ({{ cliente[2] }})</span>
                     <a href="/clientes/{{ cliente[0] }}" class="btn">Ver Detalhes</a>
                 </li>
             {% endfor %}
@@ -280,8 +280,8 @@
         <ul>
             {% for servico in servicos %}
                 <li>
-                    <span>{{ servico[1] }} - R$ {{ servico[3] }}</span>
-                    <a href="/servicos/{{ servico[0] }}" class="btn">Ver Detalhes</a>
+                    <span>{{ servico[2] }}</span> <!-- Exibe a descrição ou outro campo do serviço -->
+                    <a href="{{ url_for('detalhes_servico', id=servico[0]) }}" class="btn">Ver Detalhes</a> <!-- Redireciona para os detalhes -->
                 </li>
             {% endfor %}
         </ul>
